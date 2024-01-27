@@ -9,4 +9,10 @@ import example.horse.pojo.User;
 public interface UserService {
     User findByUsername(String username);
     Integer register(String username, String password);
+
+    Integer updateUserInfo(User user);
+
+    Integer updateAvatar(String avatarUrl);
+
+    int updatePwd(String md5String);
 }
