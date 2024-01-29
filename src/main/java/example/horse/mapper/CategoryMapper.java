@@ -1,10 +1,7 @@
 package example.horse.mapper;
 
 import example.horse.pojo.Category;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -27,4 +24,7 @@ public interface CategoryMapper {
     @Update("update category set category_name=#{categoryName}, category_alias=#{categoryAlias}, update_time = now()" +
             " where id = #{id}")
     Integer update(Category category);
+
+    @Delete("delete from category where id = #{id} and create_user = #{userId}")
+    Integer deleteById(Integer id, Integer userId);
 }

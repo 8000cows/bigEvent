@@ -4,6 +4,7 @@ import example.horse.pojo.Category;
 import example.horse.pojo.Result;
 import example.horse.service.CategoryService;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * Created by LiuSheng at 2024/1/29 12:23
  */
 
-
+@Validated
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
@@ -51,6 +52,12 @@ public class CategoryController {
     @PutMapping()
     public Result<?> update(@RequestBody @Validated Category category) {
         Integer res = categoryService.update(category);
+        return res == 1 ? Result.success() : Result.error("网络异常, 请稍后再试...");
+    }
+
+    @DeleteMapping
+    public Result<?> deleteById(@NotNull Integer id) {
+        Integer res = categoryService.deleteById(id);
         return res == 1 ? Result.success() : Result.error("网络异常, 请稍后再试...");
     }
 }

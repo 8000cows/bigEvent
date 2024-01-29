@@ -42,4 +42,11 @@ public class CategoryServiceImpl implements CategoryService {
     public Integer update(Category category) {
         return categoryMapper.update(category);
     }
+
+    @Override
+    public Integer deleteById(Integer id) {
+        Map<String, Object> map = ThreadLocalUtil.get();
+        Integer userId = (Integer) map.get("id");
+        return categoryMapper.deleteById(id, userId);
+    }
 }
