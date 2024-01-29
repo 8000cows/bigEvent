@@ -1,11 +1,13 @@
 package example.horse.service.impl;
 
 import example.horse.mapper.CategoryMapper;
+import example.horse.pojo.Category;
 import example.horse.service.CategoryService;
 import example.horse.utils.ThreadLocalUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,5 +24,22 @@ public class CategoryServiceImpl implements CategoryService {
         Map<String, Object> map = ThreadLocalUtil.get();
         Integer id = (Integer) map.get("id");
         return categoryMapper.add(category, alias, id);
+    }
+
+    @Override
+    public List<Category> getAllCategoriesByUserId() {
+        Map<String, Object> map = ThreadLocalUtil.get();
+        Integer id = (Integer) map.get("id");
+        return categoryMapper.selectAllByUserId(id);
+    }
+
+    @Override
+    public Category getDetailById(Integer id) {
+        return categoryMapper.selectDetailById(id);
+    }
+
+    @Override
+    public Integer update(Category category) {
+        return categoryMapper.update(category);
     }
 }

@@ -7,3 +7,5 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true # 设置下划线转驼峰命名映射
+server:
+  port: 8888
