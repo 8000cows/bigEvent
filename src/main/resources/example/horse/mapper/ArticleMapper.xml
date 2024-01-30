@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="example.horse.mapper.ArticleMapper">
+    <select id="list" resultType="example.horse.pojo.Article">
+        select a.create_time, create_user, category_id, cover_img, title, update_time, state, content, id
+          from article a
+        <where>
+            <if test="categoryId != null">
+                a.catory_id = #{categoryId}
+            </if>
+            <if test="state != null">
+                a.state = #{state}
+            </if>
+            and a.create_user = #{userId}
+        </where>
+    </select>
+</mapper>

@@ -1,12 +1,16 @@
 package example.horse.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import example.horse.mapper.ArticleMapper;
 import example.horse.pojo.Article;
+import example.horse.pojo.PageBean;
 import example.horse.service.ArticleService;
 import example.horse.utils.ThreadLocalUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,5 +29,19 @@ public class ArticleServiceImpl implements ArticleService {
         article.setCreateUser(userId);
 
         return articleMapper.insert(article);
+    }
+
+    @Override
+    public PageBean<Article> list(Integer pageNum, Integer pageSize, Integer categoryId, String state) {
+        PageBean<Article> articlePageBean = new PageBean<>();
+
+        PageHelper.startPage(pageNum, pageSize);
+        Map<String, Object> map = ThreadLocalUtil.get();
+        Integer userId = (Integer) map.get("id");
+
+        Page<Article> page = (Page<Article>) articleMapper.list(categoryId, state, userId);
+        articlePageBean.setTotal(page.getTotal());
+        articlePageBean.setItems(page.getResult());
+        return articlePageBean;
     }
 }

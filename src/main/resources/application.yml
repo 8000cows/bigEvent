@@ -7,5 +7,6 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true # 设置下划线转驼峰命名映射
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 设置控制台打印 SQL日志
 server:
   port: 8888
