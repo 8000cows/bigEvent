@@ -29,11 +29,6 @@ public class Result<T> {
         return new Result<>(SUCCESS, "操作成功", null);
     }
 
-    //快速返回操作成功响应结果
-    public static Result<?> success(String message) {
-        return new Result<>(SUCCESS, message, null);
-    }
-
     public static Result<?> error(String message) {
         return new Result<>(ERROR, message, null);
     }
