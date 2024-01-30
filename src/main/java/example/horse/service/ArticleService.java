@@ -13,4 +13,8 @@ public interface ArticleService {
     Integer addArticle(Article article);
 
     PageBean<Article> list(Integer pageNum, Integer pageSize, Integer categoryId, String state);
+
+    Integer updateById(Article article);
+
+    Article getById(Integer id);
 }
