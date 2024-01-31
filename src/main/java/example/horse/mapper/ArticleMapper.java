@@ -1,9 +1,7 @@
 package example.horse.mapper;
 
 import example.horse.pojo.Article;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -18,6 +16,14 @@ public interface ArticleMapper {
     Integer insert(Article article);
 
     List<Article> list(Integer categoryId, String state, Integer userId);
+
+    @Update(" update article set title = #{title}, content = #{content}, cover_img = #{coverImg}," +
+            " state = #{state}, category_id = #{categoryId}, update_time = now()" +
+            " where create_user = #{createUser} and id = #{id}")
+    Integer updateById(Article article);
+
+    @Select("select * from article where id = #{id} and create_user = #{userId}")
+    Article selectById(Integer id, Integer userId);
 
     @Delete("delete from article where id = #{id} and create_user = #{userId}")
     Integer deleteById(Integer id, Integer userId);

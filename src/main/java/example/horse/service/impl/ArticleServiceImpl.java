@@ -45,6 +45,22 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public Integer updateById(Article article) {
+        Map<String, Object> map = ThreadLocalUtil.get();
+        Integer userId = (Integer) map.get("id");
+        article.setCreateUser(userId);
+        return articleMapper.updateById(article);
+    }
+
+    @Override
+    public Article getById(Integer id) {
+        Map<String, Object> map = ThreadLocalUtil.get();
+        Integer userId = (Integer) map.get("id");
+        return articleMapper.selectById(id, userId);
+    }
+
+
+    @Override
     public Integer deleteById(Integer id) {
         Map<String, Object> map = ThreadLocalUtil.get();
         Integer userId = (Integer) map.get("id");

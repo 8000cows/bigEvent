@@ -27,9 +27,24 @@ public class ArticleController {
     }
 
     @GetMapping
-    public Result<PageBean<Article>> list(@RequestParam Integer pageNum, @RequestParam Integer pageSize, Integer categoryId, @State String state) {
+    public Result<PageBean<Article>> list(@RequestParam Integer pageNum,
+                                          @RequestParam Integer pageSize,
+                                          Integer categoryId,
+                                          @State String state) {
         PageBean<Article> articles = articleService.list(pageNum, pageSize, categoryId, state);
         return Result.success(articles);
+    }
+
+    @GetMapping("/detail")
+    public Result<Article> getDetail(@RequestParam Integer id) {
+        Article article = articleService.getById(id);
+        return Result.success(article);
+    }
+
+    @PutMapping
+    public Result<?> updateById(@RequestBody @Validated(Article.Update.class) Article article) {
+        Integer res = articleService.updateById(article);
+        return res == 1 ? Result.success() : Result.error("网络异常, 请稍后再试...");
     }
 
     @DeleteMapping
