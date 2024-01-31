@@ -4,6 +4,9 @@ spring:
     password: 200815
     url: jdbc:mysql://localhost:3306/big_event
     driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 5MB
 mybatis:
   configuration:
     map-underscore-to-camel-case: true # 设置下划线转驼峰命名映射
