@@ -1,6 +1,7 @@
 package example.horse.mapper;
 
 import example.horse.pojo.Article;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,4 +18,7 @@ public interface ArticleMapper {
     Integer insert(Article article);
 
     List<Article> list(Integer categoryId, String state, Integer userId);
+
+    @Delete("delete from article where id = #{id} and create_user = #{userId}")
+    Integer deleteById(Integer id, Integer userId);
 }

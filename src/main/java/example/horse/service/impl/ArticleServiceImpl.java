@@ -10,7 +10,6 @@ import example.horse.utils.ThreadLocalUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,5 +42,12 @@ public class ArticleServiceImpl implements ArticleService {
         articlePageBean.setTotal(page.getTotal());
         articlePageBean.setItems(page.getResult());
         return articlePageBean;
+    }
+
+    @Override
+    public Integer deleteById(Integer id) {
+        Map<String, Object> map = ThreadLocalUtil.get();
+        Integer userId = (Integer) map.get("id");
+        return articleMapper.deleteById(id, userId);
     }
 }

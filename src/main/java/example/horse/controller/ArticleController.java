@@ -31,4 +31,10 @@ public class ArticleController {
         PageBean<Article> articles = articleService.list(pageNum, pageSize, categoryId, state);
         return Result.success(articles);
     }
+
+    @DeleteMapping
+    public Result<?> deleteById(@RequestParam Integer id) {
+        Integer res = articleService.deleteById(id);
+        return res == 1 ? Result.success() : Result.error("网络异常, 请稍后再试...");
+    }
 }
