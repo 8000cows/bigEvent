@@ -2,8 +2,10 @@ package example.horse.interceptor;
 
 import example.horse.utils.JwtUtil;
 import example.horse.utils.ThreadLocalUtil;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -15,12 +17,20 @@ import java.util.Map;
 
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) {
         try {
             String token = req.getHeader("Authorization");
             Map<String, Object> map = JwtUtil.parseToken(token);
+
+            String redisToken = stringRedisTemplate.opsForValue().get(token);
+
+            // token失效
+            if (redisToken == null) throw new RuntimeException();
+
             ThreadLocalUtil.set(map);
             return true;
         } catch (Exception e) {

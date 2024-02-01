@@ -6,7 +6,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   servlet:
     multipart:
-      max-file-size: 5MB
+      max-file-size: 5MB  # 设置文件上传大小
+  data:
+    redis:
+      port: 6379
+      host: localhost
 mybatis:
   configuration:
     map-underscore-to-camel-case: true # 设置下划线转驼峰命名映射

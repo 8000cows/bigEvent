@@ -9,12 +9,14 @@ import example.horse.utils.ThreadLocalUtil;
 import jakarta.annotation.Resource;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by LiuSheng at 2024/1/25 14:30
@@ -26,6 +28,8 @@ import java.util.Map;
 public class UserController {
     @Resource
     private UserService userService;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     @PostMapping("/register")
     public Result<?> register(@Pattern(regexp = "^\\S{5,16}$") String username,
@@ -51,6 +55,8 @@ public class UserController {
             claims.put("id", u.getId());
             claims.put("username", u.getUsername());
             String token = JwtUtil.genToken(claims);
+            // 登录成功, 将token存入redis中
+            stringRedisTemplate.opsForValue().set(token, token, 1, TimeUnit.HOURS);
             return Result.success(token);
         }
 
@@ -78,7 +84,7 @@ public class UserController {
     }
 
     @PatchMapping("/updatePwd")
-    public Result<?> updatePwd(@RequestBody Map<String, String> pwdMap) {
+    public Result<?> updatePwd(@RequestBody Map<String, String> pwdMap, @RequestHeader("Authorization") String token) {
         String oldPwd = pwdMap.get("old_pwd");
         String newPwd = pwdMap.get("new_pwd");
         String rePwd = pwdMap.get("re_pwd");
@@ -96,6 +102,12 @@ public class UserController {
 
         String newPwdMd5 = Md5Util.getMD5String(newPwd);
         int res = userService.updatePwd(newPwdMd5);
-        return res == 1 ? Result.success() : Result.error("网络异常, 请稍后再试...");
+
+        if (res == 1) {
+            // 修改密码成功, 更新token
+            stringRedisTemplate.opsForValue().getOperations().delete(token);
+            return Result.success();
+        }
+        return Result.error("网络异常, 请稍后再试...");
     }
 }
