@@ -5,9 +5,14 @@ import example.horse.pojo.Article;
 import example.horse.pojo.PageBean;
 import example.horse.pojo.Result;
 import example.horse.service.ArticleService;
+import example.horse.utils.JwtUtil;
+import example.horse.utils.ThreadLocalUtil;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * Created by LiuSheng at 2024/1/26 2:02
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @RestController
 @RequestMapping("/article")
+@CrossOrigin
 public class ArticleController {
     @Resource
     private ArticleService articleService;
