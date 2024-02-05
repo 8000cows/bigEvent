@@ -27,6 +27,7 @@ public class Article {
     private String state;//发布状态 已发布|草稿
     @NotNull(groups = Update.class)
     private Integer categoryId;//文章分类id
+    private String categoryName;
     private Integer createUser;//创建人ID
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;//创建时间

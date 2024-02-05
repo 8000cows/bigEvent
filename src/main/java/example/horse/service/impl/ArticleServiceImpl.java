@@ -31,14 +31,14 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public PageBean<Article> list(Integer pageNum, Integer pageSize, Integer categoryId, String state) {
+    public PageBean<Article> list(Integer pageNum, Integer pageSize, String category, String state) {
         PageBean<Article> articlePageBean = new PageBean<>();
 
         PageHelper.startPage(pageNum, pageSize);
         Map<String, Object> map = ThreadLocalUtil.get();
         Integer userId = (Integer) map.get("id");
 
-        Page<Article> page = (Page<Article>) articleMapper.list(categoryId, state, userId);
+        Page<Article> page = (Page<Article>) articleMapper.list(category, state, userId);
         articlePageBean.setTotal(page.getTotal());
         articlePageBean.setItems(page.getResult());
         return articlePageBean;

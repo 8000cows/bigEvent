@@ -5,14 +5,9 @@ import example.horse.pojo.Article;
 import example.horse.pojo.PageBean;
 import example.horse.pojo.Result;
 import example.horse.service.ArticleService;
-import example.horse.utils.JwtUtil;
-import example.horse.utils.ThreadLocalUtil;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 /**
  * Created by LiuSheng at 2024/1/26 2:02
@@ -35,9 +30,9 @@ public class ArticleController {
     @GetMapping
     public Result<PageBean<Article>> list(@RequestParam Integer pageNum,
                                           @RequestParam Integer pageSize,
-                                          Integer categoryId,
+                                          String category,
                                           @State String state) {
-        PageBean<Article> articles = articleService.list(pageNum, pageSize, categoryId, state);
+        PageBean<Article> articles = articleService.list(pageNum, pageSize, category, state);
         return Result.success(articles);
     }
 

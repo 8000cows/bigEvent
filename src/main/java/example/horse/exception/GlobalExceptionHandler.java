@@ -14,6 +14,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public Result<?> handlerException(Exception e) {
+        System.out.println(e.toString());
         return Result.error(StringUtils.hasLength(e.getMessage()) ? e.getMessage() : "操作失败");
     }
 }

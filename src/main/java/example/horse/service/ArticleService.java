@@ -12,7 +12,7 @@ import java.util.List;
 public interface ArticleService {
     Integer addArticle(Article article);
 
-    PageBean<Article> list(Integer pageNum, Integer pageSize, Integer categoryId, String state);
+    PageBean<Article> list(Integer pageNum, Integer pageSize, String category, String state);
 
     Integer updateById(Article article);
 
