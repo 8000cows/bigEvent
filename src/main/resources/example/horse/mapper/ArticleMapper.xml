@@ -16,10 +16,10 @@
                a.id
           from article a, category c
         <where>
-            <if test="category != null and category != ''">
+            <if test="category != null and category.length != 0">
                and c.category_name = #{category}
             </if>
-            <if test="state != null">
+            <if test="state != null and state.length != 0">
                and a.state = #{state}
             </if>
             and c.id = a.category_id

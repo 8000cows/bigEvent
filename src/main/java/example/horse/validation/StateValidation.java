@@ -12,6 +12,6 @@ import jakarta.validation.ConstraintValidatorContext;
 public class StateValidation implements ConstraintValidator<State, String> {
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return "已发布".equals(value) || "草稿".equals(value);
+        return "已发布".equals(value) || "草稿".equals(value) || "".equals(value);
     }
 }
